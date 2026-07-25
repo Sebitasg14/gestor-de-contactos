@@ -7,9 +7,11 @@
         <link rel="stylesheet" href="style.css" />
     </head>
     <body>
-        <header class="encabezado">
+        <header class="barra-superior">
             <h1>Gestor de Contactos</h1>
-            <p>Registra y organiza tus contactos de forma rápida y sencilla</p>
+            <p id="contador-contactos" class="texto-contador">
+                Aún no tienes contactos registrados.
+            </p>
         </header>
 
         <main class="contenedor-principal">
@@ -21,6 +23,23 @@
 
                 <form id="formulario-contacto" novalidate>
                     <div class="campo">
+                        <span class="etiqueta-grupo">Ícono del contacto</span>
+                        <div
+                            class="selector-emoji"
+                            id="selector-emoji"
+                            role="radiogroup"
+                            aria-label="Seleccionar ícono del contacto"
+                        ></div>
+                        <input
+                            type="hidden"
+                            id="emoji-elegido"
+                            name="emoji"
+                            value=""
+                        />
+                        <span class="mensaje-error" id="error-emoji"></span>
+                    </div>
+
+                    <div class="campo">
                         <label for="nombre">Nombre</label>
                         <input
                             type="text"
@@ -28,7 +47,8 @@
                             name="nombre"
                             required
                             autocomplete="given-name"
-                            maxlength="20"
+                            placeholder="Nombre del contacto"
+                            maxlength="30"
                         />
                         <span class="mensaje-error" id="error-nombre"></span>
                     </div>
@@ -41,7 +61,8 @@
                             name="apellido"
                             required
                             autocomplete="family-name"
-                            maxlength="20"
+                            placeholder="Apellido del contacto"
+                            maxlength="30"
                         />
                         <span class="mensaje-error" id="error-apellido"></span>
                     </div>
@@ -69,7 +90,7 @@
                             placeholder="ejemplo@correo.com"
                             required
                             autocomplete="email"
-                            maxlength="25"
+                            maxlength="50"
                         />
                         <span class="mensaje-error" id="error-correo"></span>
                     </div>
@@ -101,8 +122,7 @@
                         </caption>
                         <thead>
                             <tr>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Apellido</th>
+                                <th scope="col">Contacto</th>
                                 <th scope="col">Teléfono</th>
                                 <th scope="col">Correo</th>
                                 <th scope="col">Categoría</th>
@@ -121,6 +141,155 @@
         <footer class="pie-pagina">
             <p>Programación 4 &mdash; Mini-Gestor de Contactos</p>
         </footer>
+
+        <div class="fondo-modal" id="fondo-modal">
+            <div
+                class="modal"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="titulo-modal"
+            >
+                <div class="cabecera-modal">
+                    <h2 id="titulo-modal">Detalles del contacto</h2>
+                    <button
+                        type="button"
+                        class="boton-cerrar-modal"
+                        id="boton-cerrar-modal"
+                        aria-label="Cerrar"
+                    >
+                        &times;
+                    </button>
+                </div>
+
+                <form id="formulario-edicion" novalidate>
+                    <input type="hidden" id="edicion-indice" />
+
+                    <div class="campo">
+                        <span class="etiqueta-grupo">Ícono del contacto</span>
+                        <div
+                            class="selector-emoji"
+                            id="selector-emoji-edicion"
+                            role="radiogroup"
+                            aria-label="Seleccionar ícono del contacto"
+                        ></div>
+                        <input type="hidden" id="edicion-emoji" name="emoji" />
+                    </div>
+
+                    <div class="campo">
+                        <label for="edicion-nombre">Nombre</label>
+                        <input
+                            type="text"
+                            id="edicion-nombre"
+                            required
+                            maxlength="30"
+                        />
+                        <span
+                            class="mensaje-error"
+                            id="error-edicion-nombre"
+                        ></span>
+                    </div>
+
+                    <div class="campo">
+                        <label for="edicion-apellido">Apellido</label>
+                        <input
+                            type="text"
+                            id="edicion-apellido"
+                            required
+                            maxlength="30"
+                            
+                        />
+                        <span
+                            class="mensaje-error"
+                            id="error-edicion-apellido"
+                        ></span>
+                    </div>
+
+                    <div class="campo">
+                        <label for="edicion-telefono">Teléfono</label>
+                        <input
+                            type="tel"
+                            id="edicion-telefono"
+                            required
+                            maxlength="12"
+                        />
+                        <span
+                            class="mensaje-error"
+                            id="error-edicion-telefono"
+                        ></span>
+                    </div>
+
+                    <div class="campo">
+                        <label for="edicion-correo">Correo electrónico</label>
+                        <input
+                            type="email"
+                            id="edicion-correo"
+                            required
+                            maxlength="50"
+                        />
+                        <span
+                            class="mensaje-error"
+                            id="error-edicion-correo"
+                        ></span>
+                    </div>
+
+                    <div class="campo">
+                        <label for="edicion-categoria">Categoría</label>
+                        <select id="edicion-categoria" required>
+                            <option value="Trabajo">Trabajo</option>
+                            <option value="Familia">Familia</option>
+                            <option value="Amigos">Amigos</option>
+                        </select>
+                        <span
+                            class="mensaje-error"
+                            id="error-edicion-categoria"
+                        ></span>
+                    </div>
+
+                    <div class="acciones-modal">
+                        <button
+                            type="button"
+                            class="boton-secundario"
+                            id="boton-cancelar-edicion"
+                        >
+                            Cancelar
+                        </button>
+                        <button type="submit" class="boton-guardar">
+                            Guardar cambios
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="fondo-modal" id="fondo-modal-confirmacion">
+            <div
+                class="modal modal-pequena"
+                role="alertdialog"
+                aria-modal="true"
+                aria-labelledby="titulo-confirmacion"
+            >
+                <div class="cabecera-modal">
+                    <h2 id="titulo-confirmacion">Eliminar contacto</h2>
+                </div>
+                <p id="texto-confirmacion" class="texto-confirmacion"></p>
+                <div class="acciones-modal">
+                    <button
+                        type="button"
+                        class="boton-secundario"
+                        id="boton-cancelar-eliminacion"
+                    >
+                        Cancelar
+                    </button>
+                    <button
+                        type="button"
+                        class="boton-eliminar-confirmar"
+                        id="boton-confirmar-eliminacion"
+                    >
+                        Eliminar
+                    </button>
+                </div>
+            </div>
+        </div>
 
         <script src="main.js"></script>
     </body>
