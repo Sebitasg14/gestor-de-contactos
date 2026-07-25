@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Gestor de Contactos</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <header class="encabezado">
+            <h1>Gestor de Contactos</h1>
+            <p>Registra y organiza tus contactos de forma rápida y sencilla</p>
+        </header>
+
+        <main class="contenedor-principal">
+            <section
+                class="seccion-formulario"
+                aria-labelledby="titulo-formulario"
+            >
+                <h2 id="titulo-formulario">Registrar nuevo contacto</h2>
+
+                <form id="formulario-contacto" novalidate>
+                    <div class="campo">
+                        <label for="nombre">Nombre</label>
+                        <input
+                            type="text"
+                            id="nombre"
+                            name="nombre"
+                            required
+                            autocomplete="given-name"
+                            maxlength="20"
+                        />
+                        <span class="mensaje-error" id="error-nombre"></span>
+                    </div>
+
+                    <div class="campo">
+                        <label for="apellido">Apellido</label>
+                        <input
+                            type="text"
+                            id="apellido"
+                            name="apellido"
+                            required
+                            autocomplete="family-name"
+                            maxlength="20"
+                        />
+                        <span class="mensaje-error" id="error-apellido"></span>
+                    </div>
+
+                    <div class="campo">
+                        <label for="telefono">Teléfono</label>
+                        <input
+                            type="tel"
+                            id="telefono"
+                            name="telefono"
+                            placeholder="Ej: 0412-1234567"
+                            required
+                            autocomplete="tel"
+                            maxlength="12"
+                        />
+                        <span class="mensaje-error" id="error-telefono"></span>
+                    </div>
+
+                    <div class="campo">
+                        <label for="correo">Correo electrónico</label>
+                        <input
+                            type="email"
+                            id="correo"
+                            name="correo"
+                            placeholder="ejemplo@correo.com"
+                            required
+                            autocomplete="email"
+                            maxlength="25"
+                        />
+                        <span class="mensaje-error" id="error-correo"></span>
+                    </div>
+
+                    <div class="campo">
+                        <label for="categoria">Categoría</label>
+                        <select id="categoria" name="categoria" required>
+                            <option value="">Selecciona una categoría</option>
+                            <option value="Trabajo">Trabajo</option>
+                            <option value="Familia">Familia</option>
+                            <option value="Amigos">Amigos</option>
+                        </select>
+                        <span class="mensaje-error" id="error-categoria"></span>
+                    </div>
+
+                    <button type="submit" class="boton-guardar">
+                        Guardar contacto
+                    </button>
+                </form>
+            </section>
+
+            <section class="seccion-listado" aria-labelledby="titulo-listado">
+                <h2 id="titulo-listado">Contactos guardados</h2>
+
+                <div class="contenedor-tabla">
+                    <table>
+                        <caption class="visualmente-oculto">
+                            Listado de contactos registrados
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Apellido</th>
+                                <th scope="col">Teléfono</th>
+                                <th scope="col">Correo</th>
+                                <th scope="col">Categoría</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cuerpo-tabla-contactos"></tbody>
+                    </table>
+                    <p id="mensaje-vacio" class="mensaje-vacio">
+                        Aún no has registrado contactos.
+                    </p>
+                </div>
+            </section>
+        </main>
+
+        <footer class="pie-pagina">
+            <p>Programación 4 &mdash; Mini-Gestor de Contactos</p>
+        </footer>
+
+        <script src="main.js"></script>
+    </body>
+</html>
