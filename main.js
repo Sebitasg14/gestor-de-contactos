@@ -36,7 +36,8 @@ const botonConfirmarEliminacion = document.getElementById(
 );
 
 const expresionCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const expresionTelefono = /^[0-9+\-\s]{7,15}$/;
+const prefijosTelefonicos = ['0412', '0422', '0416', '0426', '0414', '0424'];
+const expresionTelefono = /^(0412|0422|0416|0426|0414|0424)-\d{7}$/;
 
 const emojisAvatar = [
     '😀',
@@ -122,6 +123,37 @@ function limpiarError(campo, mensajeId) {
     document.getElementById(mensajeId).textContent = '';
 }
 
+function validarTelefono(campo, mensajeId) {
+    const valor = campo.value.trim();
+
+    if (valor === '') {
+        mostrarError(campo, mensajeId, 'El teléfono es obligatorio.');
+        return false;
+    }
+
+    if (!/^\d{4}-\d{7}$/.test(valor)) {
+        mostrarError(
+            campo,
+            mensajeId,
+            'Ingresa un teléfono válido con formato 0412-1234567.'
+        );
+        return false;
+    }
+
+    const prefijo = valor.slice(0, 4);
+    if (!prefijosTelefonicos.includes(prefijo)) {
+        mostrarError(
+            campo,
+            mensajeId,
+            'Los primeros 4 dígitos deben ser 0412, 0422, 0416, 0426, 0414 o 0424.'
+        );
+        return false;
+    }
+
+    limpiarError(campo, mensajeId);
+    return true;
+}
+
 function validarCampos(datos, prefijoError) {
     let esValido = true;
 
@@ -147,22 +179,8 @@ function validarCampos(datos, prefijoError) {
         limpiarError(datos.apellido, prefijoError + 'apellido');
     }
 
-    if (datos.telefono.value.trim() === '') {
-        mostrarError(
-            datos.telefono,
-            prefijoError + 'telefono',
-            'El teléfono es obligatorio.'
-        );
+    if (!validarTelefono(datos.telefono, prefijoError + 'telefono')) {
         esValido = false;
-    } else if (!expresionTelefono.test(datos.telefono.value.trim())) {
-        mostrarError(
-            datos.telefono,
-            prefijoError + 'telefono',
-            'Ingresa un teléfono válido.'
-        );
-        esValido = false;
-    } else {
-        limpiarError(datos.telefono, prefijoError + 'telefono');
     }
 
     if (datos.correo.value.trim() === '') {
